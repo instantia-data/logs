@@ -4,18 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBkoColor extends Migration
+class CreateLogBrowser extends Migration
 {
-
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $schema_table = 'bko_color';
+    public $schema_table = 'log_browser';
 
     /**
      * Run the migrations.
-     * @table bko_color
+     * @table bko_log_browser
      *
      * @return void
      */
@@ -27,11 +26,9 @@ class CreateBkoColor extends Migration
         Schema::create($this->schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            
-            $table->string('code', 20)->unique();
-            $table->string('name', 100)->nullable();
-            $table->string('hexa', 7)->nullable();
-
+            $table->string('browser_info', 200)->nullable();
+            $table->string('browser_version', 10)->nullable();
+            $table->nullableTimestamps();
         });
     }
 

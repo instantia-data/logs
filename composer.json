@@ -9,20 +9,19 @@
             "homepage": "author homepage"
         }
     ],
-    "homepage": "https://github.com/instantia/library",
-    "keywords": ["Laravel", "Library"],
+    "homepage": "https://instantia-data@bitbucket.org/instantia-data/logs.git",
+    "keywords": ["Laravel", "Logs"],
     "require": {
         "illuminate/support": "~5"
     },
     "require-dev": {
         "php": ">=7.0",
         "phpunit/phpunit": "~7.0",
-        "instantia/library": "^1.0",
-        "instantia/policy": "^1.0"
+        "instantia/library": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "Logs\\": "packages/instantia/logs/src"
+            "Logs\\": "src/"
         }
     },
     "autoload-dev": {

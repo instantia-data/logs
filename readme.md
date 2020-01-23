@@ -1,5 +1,5 @@
 # Logs
-User management, login, register, password functions
+Generate logs to database on model events - create, update, delete
 ## Setup
 ### composer
 /composer.json
@@ -27,36 +27,98 @@ before
 ```
 App\Providers\RouteServiceProvider::class,
 ```
-### Publish files
+## To use in models
 ```
-php artisan krud:publish logs
+    /**
+     * Event observers
+     * @var type 
+     */
+    protected $dispatchesEvents = [
+        'saved' => ModelObserver::class,
+        'created' => ModelObserver::class,
+        'updated' => ModelObserver::class,
+        'deleted' => ModelObserver::class,
 
+    ];
 ```
-### RouteServiceProvider
-/app/Providers/RouteServiceProvider.php
+## ModelObserver example
 ```
+<?php
+
+namespace App\Observers;
+
+use App\Model\Entities\Model;
+use Logs\Services\LogEntryService;
+
+class ModelObserver
+{
+    
+    private $service;
+
     /**
-     * Define the routes for the application.
+     * Create a new class instance.
      *
      * @return void
      */
-    public function map()
+    public function __construct()
     {
-        $this->mapApiRoutes();
-        $this->mapWebRoutes();
-		###
-        $this->mapLogsRoutes();
+        $this->service = new LogEntryService();
     }
+    
     /**
-     * Define the  routes for logs package.
+     * Handle the table "created" event.
      *
-     * These routes are typically stateless.
-     *
+     * @param  \App\Model\Entities\Model  $model
      * @return void
      */
-    protected function mapLogsRoutes()
+    public function created(Model $model)
     {
-        Route::namespace($this->namespace)
-             ->group(base_path('routes/logs.php'));
+        $this->service->logCreated($model);
     }
+
+    /**
+     * Handle the table "updated" event.
+     *
+     * @param  \App\Model\Entities\Model  $model
+     * @return void
+     */
+    public function updated(Model $model)
+    {
+        $this->service->logUpdate($model);
+    }
+
+    /**
+     * Handle the table "deleted" event.
+     *
+     * @param  \App\Model\Entities\Model  $model
+     * @return void
+     */
+    public function deleted(Model $model)
+    {
+        $this->service->logDeleted($model);
+    }
+
+    /**
+     * Handle the table "restored" event.
+     *
+     * @param  \App\Model\Entities\Model  $model
+     * @return void
+     */
+    public function restored(Model $model)
+    {
+        //
+    }
+
+    /**
+     * Handle the table "force deleted" event.
+     *
+     * @param  \App\Model\Entities\Model  $model
+     * @return void
+     */
+    public function forceDeleted(Model $model)
+    {
+        //
+    }
+}
+
 ```
