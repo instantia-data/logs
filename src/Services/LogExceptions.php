@@ -16,10 +16,13 @@ use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 class LogExceptions
 {
     
-    public static function log(FlattenException $e)
+    public function log(FlattenException $e)
     {
         if(strpos($e->getClass(), 'AuthenticationException') !== false){
-            return self::get()->authentication();
+            return $this->authentication();
+        }
+        if(strpos($e->getClass(), 'ValidationException') !== false){
+            return $this->validation();
         }
         return false;
     }
@@ -39,8 +42,13 @@ class LogExceptions
     
     public function authentication()
     {
-        info('Mode: ' . php_sapi_name());
-        info('Unauthenticated @IP ' . request()->ip() . ' in ' . request()->server('HTTP_USER_AGENT'));
+        info('Mode: ' . php_sapi_name() . ' has Unauthenticated exception @IP ' . request()->ip() . ' in ' . request()->server('HTTP_USER_AGENT'));
+        return true;
+    }
+    
+    public function validation()
+    {
+        info('Mode: ' . php_sapi_name() . ' has Validation error @IP ' . request()->ip() . ' in ' . request()->server('HTTP_USER_AGENT'));
         return true;
     }
     
@@ -69,7 +77,19 @@ class LogExceptions
             Mail::to(config('logging.loggin_email'))->send($mailable);
         } catch (Exception $ex) {
             info('email sending failed');
+            self::get()->writeLog($e);
             return false;
         }
+    }
+    
+    public function writeLog(FlattenException $e)
+    {
+        info('Mode: ' . php_sapi_name());
+        info('Error class: ' . $e->getClass());
+        info('Error message: ' . $e->getMessage());
+        info('Error file: ' . $e->getFile());
+        info('Error line: ' . $e->getLine());
+        info('IP: ' . request()->ip());
+        info(request()->ajax());
     }
 }
