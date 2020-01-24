@@ -11,12 +11,8 @@
     ],
     "homepage": "https://instantia-data@bitbucket.org/instantia-data/logs.git",
     "keywords": ["Laravel", "Logs"],
-    "require": {
-        "illuminate/support": "~5"
-    },
     "require-dev": {
         "php": ">=7.0",
-        "phpunit/phpunit": "~7.0",
         "instantia/library": "^1.0"
     },
     "autoload": {
