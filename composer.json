@@ -20,11 +20,6 @@
             "Logs\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Logs\\Tests\\": "packages/instantia/logs/tests"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [
