@@ -14,7 +14,7 @@ class CreateLogBrowser extends Migration
 
     /**
      * Run the migrations.
-     * @table bko_log_browser
+     * @table log_browser
      *
      * @return void
      */

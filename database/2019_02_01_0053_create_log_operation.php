@@ -14,7 +14,7 @@ class CreateLogOperation extends Migration
 
     /**
      * Run the migrations.
-     * @table bko_log_ip
+     * @table log_ip
      *
      * @return void
      */
