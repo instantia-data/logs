@@ -10,7 +10,7 @@
   | contains the "web" middleware group. Now create something great!
   |
  */
-Route::group(['prefix' => 'backend', 'middleware' => ['web', 'auth', 'has_access']], function () {
+Route::group(['prefix' => 'backend', 'middleware' => ['web', 'auth', 'has_backend']], function () {
 
     Route::group(['prefix' => 'logs', 'middleware' => 'policy:logs'], function () {
         Route::get('/', 'LogsController@index')->name('admin.logs')->middleware('checkact:access');
