@@ -13,7 +13,7 @@
     "keywords": ["Laravel", "Logs"],
     "require": {
         "php": ">=7.0",
-        "instantia/library": "^1.0"
+        "instantia/library": ">=1.0"
     },
     "autoload": {
         "psr-4": {
