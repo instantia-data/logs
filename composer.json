@@ -11,7 +11,7 @@
     ],
     "homepage": "https://instantia-data@bitbucket.org/instantia-data/logs.git",
     "keywords": ["Laravel", "Logs"],
-    "require-dev": {
+    "require": {
         "php": ">=7.0",
         "instantia/library": "^1.0"
     },
@@ -20,6 +20,9 @@
             "Logs\\": "src/"
         }
     },
+    "repositories": [
+        {"type": "vcs", "url": "https://instantia-data@bitbucket.org/instantia-data/library.git"}
+    ],
     "extra": {
         "laravel": {
             "providers": [
