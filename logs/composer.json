@@ -1,0 +1,34 @@
+{
+    "name": "instantia/logs",
+    "description": "Logs description",
+    "license": "license",
+    "authors": [
+        {
+            "name": "author name",
+            "email": "author email",
+            "homepage": "author homepage"
+        }
+    ],
+    "homepage": "https://instantia-data@bitbucket.org/instantia-data/logs.git",
+    "keywords": ["Laravel", "Logs"],
+    "require": {
+        "php": ">=7.0",
+        "instantia/library": ">=1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Logs\\": "src/"
+        }
+    },
+    "repositories": [
+        {"type": "vcs", "url": "https://instantia-data@bitbucket.org/instantia-data/library.git"}
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Logs\\LogsServiceProvider"
+            ],
+            "aliases": {}
+        }
+    }
+}
