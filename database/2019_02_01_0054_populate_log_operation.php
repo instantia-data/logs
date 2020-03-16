@@ -21,9 +21,9 @@ class PopulateLogOperation extends Migration
         foreach ([
             'register', 'created', 'updated', 'deleted'
         ] as $name) {
-            DB::table($this->schema_table)->insertOrIgnore([[
+            DB::table($this->schema_table)->updateOrInsert([
             'name' => $name
-            ]]);
+            ]);
         }
     }
     
