@@ -30,6 +30,9 @@ class ExceptionMail extends Mailable
     {
         $email = (null == user())? env('MAIL_USERNAME'): user()->email;
         info('build email ' . $email);
+        if(app()->runningInConsole()){
+            return $this->consoleException();
+        }
         $uri = (null === request()->route())? $_SERVER['REQUEST_URI']: request()->route()->uri;
         $subject = 'Exception occured @' . env('APP_NAME') . '-' . $uri . ' on ' . date('Y-m-d H:i:s');
         info($subject);
@@ -38,6 +41,18 @@ class ExceptionMail extends Mailable
                 ->subject('Exception occured @' . env('APP_NAME') . '-' . $uri . ' on ' . date('Y-m-d H:i:s'))
                 ->with('url', request()->url() . ' -> ' . $uri)
                 ->with('inputs', http_build_query(request()->input(), '', '<br />'))
+                ->with('subject', $subject)
+                ->with('content', $this->content);
+    }
+    
+    private function consoleException()
+    {
+        $subject = 'Exception occured @' . env('APP_NAME') . '- console on ' . date('Y-m-d H:i:s');
+        return $this->view('logs::mail.exception')->from(config('mail.from.address'), env('APP_NAME'))
+                //->from($email)
+                ->subject($subject)
+                ->with('url', env('APP_URL'))
+                ->with('inputs', [])
                 ->with('subject', $subject)
                 ->with('content', $this->content);
     }
