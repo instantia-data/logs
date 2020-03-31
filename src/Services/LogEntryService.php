@@ -16,7 +16,7 @@ use Logs\Model\Entities\LogIp;
 class LogEntryService
 {
 
-    use \Library\Debuggy\LogModel;
+    use \Logs\Helpers\LogModel;
 
     private $repository;
 
