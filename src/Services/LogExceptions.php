@@ -78,7 +78,7 @@ class LogExceptions
             log_print('email-sent', $res);
         } catch (Exception $ex) {
             info('email sending failed');
-            self::get()->writeLog($e);
+            self::get()->writeLog($ex);
             return false;
         }
     }
