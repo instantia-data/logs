@@ -74,11 +74,10 @@ class LogExceptions
             $mailable->with('error_line', $e->getLine());
             $mailable->with('ip', request()->ip());
 
-            $res = Mail::to(config('logging.loggin_email'))->send($mailable);
-            log_print('email-sent to ' . config('logging.loggin_email'), $res);
+            Mail::to(config('logging.loggin_email'))->send($mailable);
         } catch (Exception $ex) {
             info('email sending failed');
-            self::get()->writeLog($ex);
+            self::get()->writeLog($e);
             return false;
         }
     }
