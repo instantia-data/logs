@@ -25,6 +25,6 @@ class RouteGate
     }
     
     private static $suspicious = [
-        'wp-admin', 'magento', 'wp-login'
+        'wp-admin', 'magento', 'wp-login', '/backup', '/wordpress', '/old'
     ];
 }
