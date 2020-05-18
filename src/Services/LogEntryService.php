@@ -18,7 +18,7 @@ class LogEntryService
 
     use \Logs\Helpers\LogModel;
 
-    private $repository;
+    protected $repository;
 
     /**
      * 
