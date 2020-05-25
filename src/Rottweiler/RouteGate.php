@@ -13,6 +13,9 @@ class RouteGate
     
     public static function validError($url)
     {
+        if(!is_file(database_path('utils/suspicious_routes.php'))){
+            return;
+        }
         $suspicious_routes = include(database_path('utils/suspicious_routes.php'));
         foreach ($suspicious_routes as $part) {
             if (strpos($url, $part) !== false) {
