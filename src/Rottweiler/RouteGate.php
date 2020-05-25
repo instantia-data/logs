@@ -13,7 +13,8 @@ class RouteGate
     
     public static function validError($url)
     {
-        foreach (self::$suspicious as $part) {
+        $suspicious_routes = include(database_path('utils/suspicious_routes.php'));
+        foreach ($suspicious_routes as $part) {
             if (strpos($url, $part) !== false) {
                 fwrite(fopen(storage_path('logs/ban_ip.txt'), 'w'), request()->ip() . "\n");
                 return false;
@@ -24,7 +25,4 @@ class RouteGate
         return true;
     }
     
-    private static $suspicious = [
-        'wp-admin', 'magento', 'wp-login', '/backup', '/wordpress', '/old'
-    ];
 }

@@ -34,5 +34,10 @@ class LogsServiceProvider extends ServiceProvider
          */
         $this->loadMigrationsFrom(__DIR__.'/../database');
         
+        /**
+         * Suspicious routes array
+         */
+        $this->publishes([__DIR__.'/../assets/utils/suspicious_routes.php' => database_path('utils/suspicious_routes.php')], 'id-logs-db-force');
+        
     }
 }
