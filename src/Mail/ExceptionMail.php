@@ -17,7 +17,6 @@ class ExceptionMail extends Mailable
      */
     public function __construct($content)
     {
-        info('content ' . strlen($content));
         $this->content = $content;
     }
 
@@ -28,14 +27,14 @@ class ExceptionMail extends Mailable
      */
     public function build()
     {
-        $email = (null == user())? env('MAIL_USERNAME'): user()->email;
-        info('build email ' . $email);
+        
         if(app()->runningInConsole()){
             return $this->consoleException();
         }
         $uri = (null === request()->route())? $_SERVER['REQUEST_URI']: request()->route()->uri;
         $subject = 'Exception occured @' . env('APP_NAME') . '-' . $uri . ' on ' . date('Y-m-d H:i:s');
-        info($subject);
+        info('EXCEPTION EMAIL: ' . $subject);
+        
         return $this->view('logs::mail.exception')->from(config('mail.from.address'), env('APP_NAME'))
                 //->from($email)
                 ->subject('Exception occured @' . env('APP_NAME') . '-' . $uri . ' on ' . date('Y-m-d H:i:s'))
