@@ -18,6 +18,7 @@ class Visit
         if (session()->get('visit') == null) {
             
             self::$data = [
+                'created'=>time(),
                 'time' => time(),
                 'ip' => request()->ip(),
                 'id' => bcrypt(request()->ip() . time()),
