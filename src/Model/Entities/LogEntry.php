@@ -24,7 +24,7 @@ class LogEntry extends Model
     /**
      * Visible columns.
      */
-    public $visible = ['id', 'browser_id', 'ip_id', 'operation_id', 'user_id', 'table', 'table_id', 'notes', 'created_at', 'updated_at'];
+    public $visible = ['id', 'browser_id', 'ip_id', 'operation_id', 'user_id', 'sessionid', 'table', 'table_id', 'notes', 'created_at', 'updated_at'];
     
      /**
      * Indicates if the model should be timestamped.
@@ -33,22 +33,6 @@ class LogEntry extends Model
      */
     public $timestamps = true;
     
-    /**
-     * 
-     * @return \StdClass
-     */
-    public static function getLogEntry() {
-        return LogEntry::firstOrNew([
-        'id'=>null,
-        'browser_id'=>null,
-        'ip_id'=>null,
-        'operation_id'=>null,
-        'user_id'=>null,
-        'table'=>null,
-        'table_id'=>null,
-        'notes'=>null,
-                ]);
-    }
     
     
     /**
@@ -83,6 +67,12 @@ class LogEntry extends Model
     
     /**
      * 
+     * text
+     */
+    const FIELD_SESSIONID = 'sessionid';
+    
+    /**
+     * 
      * string
      */
     const FIELD_TABLE = 'table';
@@ -95,7 +85,7 @@ class LogEntry extends Model
     
     /**
      * 
-     * string
+     * text
      */
     const FIELD_NOTES = 'notes';
     
@@ -111,13 +101,12 @@ class LogEntry extends Model
      */
     const FIELD_UPDATED_AT = 'updated_at';
     
-    
-    
     /**
      * Foreign key constraint
      * @return \Logs\Model\Entities\LogBrowser
      */
-    public function log_browser() {
+    public function browser() 
+    {
         return $this->belongsTo(\Logs\Model\Entities\LogBrowser::class, 'browser_id');
     }
     
@@ -125,7 +114,8 @@ class LogEntry extends Model
      * Foreign key constraint
      * @return \Logs\Model\Entities\LogIp
      */
-    public function log_ip() {
+    public function ip() 
+    {
         return $this->belongsTo(\Logs\Model\Entities\LogIp::class, 'ip_id');
     }
     
@@ -133,25 +123,26 @@ class LogEntry extends Model
      * Foreign key constraint
      * @return \Logs\Model\Entities\LogOperation
      */
-    public function log_operation() {
+    public function operation() 
+    {
         return $this->belongsTo(\Logs\Model\Entities\LogOperation::class, 'operation_id');
     }
     
     /**
      * Foreign key constraint
-     * @return \Logs\Model\Entities\User
+     * @return \App\Model\Entities\Users
      */
-    public function user() {
-        return $this->belongsTo(\Logs\Model\Entities\User::class, 'user_id');
+    public function user() 
+    {
+        return $this->belongsTo(\App\Model\Entities\Users::class, 'user_id');
     }
-    
-    
     
     /**
      * 
      * @return integer
      */
-    public function getId() {
+    public function getId() 
+    {
         return $this->id;
     }
     
@@ -159,7 +150,8 @@ class LogEntry extends Model
      * 
      * @return int
      */
-    public function getBrowserId() {
+    public function getBrowserId() 
+    {
         return $this->browser_id;
     }
     
@@ -167,7 +159,8 @@ class LogEntry extends Model
      * 
      * @return int
      */
-    public function getIpId() {
+    public function getIpId() 
+    {
         return $this->ip_id;
     }
     
@@ -175,7 +168,8 @@ class LogEntry extends Model
      * 
      * @return int
      */
-    public function getOperationId() {
+    public function getOperationId() 
+    {
         return $this->operation_id;
     }
     
@@ -183,15 +177,26 @@ class LogEntry extends Model
      * 
      * @return int
      */
-    public function getUserId() {
+    public function getUserId() 
+    {
         return $this->user_id;
+    }
+    
+    /**
+     * 
+     * @return text
+     */
+    public function getSessionid() 
+    {
+        return $this->sessionid;
     }
     
     /**
      * 
      * @return string
      */
-    public function getTable() {
+    public function getTable() 
+    {
         return $this->table;
     }
     
@@ -199,15 +204,17 @@ class LogEntry extends Model
      * 
      * @return integer
      */
-    public function getTableId() {
+    public function getTableId() 
+    {
         return $this->table_id;
     }
     
     /**
      * 
-     * @return string
+     * @return text
      */
-    public function getNotes() {
+    public function getNotes() 
+    {
         return $this->notes;
     }
     
@@ -215,7 +222,8 @@ class LogEntry extends Model
      * 
      * @return timestamp
      */
-    public function getCreatedAt() {
+    public function getCreatedAt() 
+    {
         return $this->created_at;
     }
     
@@ -223,100 +231,8 @@ class LogEntry extends Model
      * 
      * @return timestamp
      */
-    public function getUpdatedAt() {
+    public function getUpdatedAt() 
+    {
         return $this->updated_at;
-    }
-    
-    
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setId($value) {
-        $this->id = $value;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setBrowserId($value) {
-        $this->browser_id = $value;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setIpId($value) {
-        $this->ip_id = $value;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setOperationId($value) {
-        $this->operation_id = $value;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setUserId($value) {
-        $this->user_id = $value;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setTable($value) {
-        $this->table = $value;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setTableId($value) {
-        $this->table_id = $value;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param {$item.type} $value
-     * @return \LogEntry
-     */
-    public function setNotes($value) {
-        $this->notes = $value;
-        return $this;
-    }
-    
-    
-    
-    /**
-     * Save the model object
-     * @return \LogEntry
-     */
-    public function store() {
-        $this->save();
-        return $this;
     }
 }
