@@ -16,7 +16,7 @@ class RotineHandler
         if(!defined('EXECUTION_TIME')){
             define('EXECUTION_TIME', microtime(true));
         }
-        
+
         \Logs\Services\Visit::register();
         
         info('Url-Route ' . request()->url() . ' ' . 
