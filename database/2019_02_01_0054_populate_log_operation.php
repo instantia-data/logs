@@ -19,7 +19,7 @@ class PopulateLogOperation extends Migration
     public function up()
     {
         foreach ([
-            'register', 'created', 'updated', 'deleted'
+            'register', 'created', 'updated', 'deleted', 'cart'
         ] as $name) {
             DB::table($this->schema_table)->updateOrInsert([
             'name' => $name

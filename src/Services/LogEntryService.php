@@ -7,6 +7,7 @@ use Logs\Model\Entities\LogOperation;
 use Logs\Model\Entities\LogBrowser;
 use Logs\Model\Entities\LogEntry;
 use Logs\Model\Entities\LogIp;
+use Logs\Services\Visit;
 
 /**
  * Description of LogEntryService
@@ -41,18 +42,13 @@ class LogEntryService
     {
         return new LogEntryService();
     }
+    
 
     /**
-     * 
-     * @return \Illuminate\Support\Collection
+     * Register registered user to logs
+     * @see \Logs\Services\UserLog called by \App\User
+     * @return type
      */
-    public function getLogEntrys()
-    {
-        $q = $this->repository->getLogEntrys();
-
-        return $q->get();
-    }
-
     public function register()
     {
 
@@ -148,6 +144,25 @@ class LogEntryService
         $file = storage_path('logs/entries/') . date('Ymd') . '_' . $class::TABLE_NAME . '.log';
         file_put_contents($file, 'ENTRY: ' . $entry->id . ' [' . $entry->created_at . "]\n", FILE_APPEND);
         file_put_contents($file, $action . ': ' . $data . "\n", FILE_APPEND);
+    }
+    
+    
+    public function getOrCreateEntry(Visit $visit)
+    {
+        $ip = LogIp::firstOrCreate(['ip' => request()->ip()]);
+        $browser = LogBrowser::firstOrCreate(['browser_info' => request()->server('HTTP_USER_AGENT')]);
+        $operation = LogOperation::firstOrCreate(['name' => 'register']);
+
+        $entry = $this->repository->getRecentWithoutUser($ip, $browser, $operation);
+        if ($entry == null) {
+            $entry = new LogEntry();
+            //'browser_id', 'ip_id', 'user_id', 'operation_id'
+            $entry->browser_id = $browser->id;
+            $entry->ip_id = $ip->id;
+            $entry->operation_id = $operation->id;
+            $entry->save();
+        }
+        return $entry->toArray();
     }
 
 }

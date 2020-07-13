@@ -32,8 +32,10 @@ class CreateLogEntry extends Migration
             $table->unsignedInteger('operation_id');
             $table->unsignedInteger('user_id')->nullable();
             
+            $table->text('sessionid')->nullable();
             $table->string('table', 90)->nullable();
             $table->unsignedBigInteger('table_id')->nullable();
+            
             $table->text('notes')->nullable();
 
            
