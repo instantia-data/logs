@@ -147,21 +147,16 @@ class LogEntryService
     }
     
     
-    public function getOrCreateEntry(Visit $visit)
+    public function getOrCreateEntry(Visit $visit, $operation)
     {
-        $ip = LogIp::firstOrCreate(['ip' => request()->ip()]);
-        $browser = LogBrowser::firstOrCreate(['browser_info' => request()->server('HTTP_USER_AGENT')]);
-        $operation = LogOperation::firstOrCreate(['name' => 'register']);
+        $entry = LogEntry::firstOrCreate([
+            'sessionid'=>$visit::$data[Visit::DATA_SESSION_ID]
+        ], [
+            'ip'=>LogIp::firstOrCreate(['ip' => request()->ip()]),
+            'browser'=>LogBrowser::firstOrCreate(['browser_info' => request()->server('HTTP_USER_AGENT')]),
+            'operation'=>LogOperation::firstOrCreate(['name' => $operation])
+        ]);
 
-        $entry = $this->repository->getRecentWithoutUser($ip, $browser, $operation);
-        if ($entry == null) {
-            $entry = new LogEntry();
-            //'browser_id', 'ip_id', 'user_id', 'operation_id'
-            $entry->browser_id = $browser->id;
-            $entry->ip_id = $ip->id;
-            $entry->operation_id = $operation->id;
-            $entry->save();
-        }
         return $entry->toArray();
     }
 

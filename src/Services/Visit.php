@@ -11,6 +11,13 @@ namespace Logs\Services;
 class Visit
 {
     public static $data;
+    
+    const DATA_SESSION_ID = 'current';
+    const DATA_CREATED_AT = 'created';
+    const DATA_UPDATED_AT = 'time';
+    const DATA_IP = 'ip';
+    const DATA_ID = 'id';
+    
 
     public static function register()
     {
@@ -18,17 +25,17 @@ class Visit
         if (session()->get('visit') == null) {
             
             self::$data = [
-                'created'=>time(),
-                'time' => time(),
-                'ip' => request()->ip(),
-                'id' => bcrypt(request()->ip() . time()),
-                'current'=>session()->getId()
+                self::DATA_CREATED_AT =>time(),
+                self::DATA_UPDATED_AT => time(),
+                self::DATA_IP => request()->ip(),
+                self::DATA_ID => bcrypt(request()->ip() . time()),
+                self::DATA_SESSION_ID=>session()->getId()
             ];
         }else{
             self::$data = session()->get('visit');
-            self::$data['current'] = session()->getId();
-            self::$data['time'] = time();
-            self::$data['ip'] = request()->ip();
+            self::$data[self::DATA_SESSION_ID] = session()->getId();
+            self::$data[self::DATA_UPDATED_AT] = time();
+            self::$data[self::DATA_IP] = request()->ip();
         }
         session(['visit' => self::$data]);
     }
