@@ -40,9 +40,16 @@ class Visit
         session(['visit' => self::$data]);
     }
     
-    
-    public static function getVisit()
+    /**
+     * Get session 'visit' as array or one of the indexes
+     * @param string $index
+     * @return mixed
+     */
+    public static function getVisit($index = null)
     {
+        if($index != null){
+            return self::$data[$index];
+        }
         return session()->get('visit');
     }
 
