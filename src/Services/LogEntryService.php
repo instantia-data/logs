@@ -147,17 +147,22 @@ class LogEntryService
     }
     
     
-    public function getOrCreateEntry(Visit $visit, $operation)
+    public function getOrCreateEntry($visit, $operation)
     {
         $entry = LogEntry::firstOrCreate([
-            'sessionid'=>$visit::$data[Visit::DATA_SESSION_ID]
+            'sessionid'=>$visit[Visit::DATA_SESSION_ID]
         ], [
-            'ip'=>LogIp::firstOrCreate(['ip' => request()->ip()]),
-            'browser'=>LogBrowser::firstOrCreate(['browser_info' => request()->server('HTTP_USER_AGENT')]),
-            'operation'=>LogOperation::firstOrCreate(['name' => $operation])
+            'ip_id'=>LogIp::firstOrCreate(['ip' => request()->ip()])->id,
+            'browser_id'=>LogBrowser::firstOrCreate(['browser_info' => request()->server('HTTP_USER_AGENT')])->id,
+            'operation_id'=>LogOperation::firstOrCreate(['name' => $operation])->id,
+            
         ]);
+        if(null != user()){
+            $entry->user_id = user()->id;
+            $entry->save();
+        }
 
-        return $entry->toArray();
+        return $entry;
     }
 
 }
