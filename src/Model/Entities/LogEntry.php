@@ -130,11 +130,11 @@ class LogEntry extends Model
     
     /**
      * Foreign key constraint
-     * @return \App\Model\Entities\Users
+     * @return \Authpack\Model\Entities\User
      */
     public function user() 
     {
-        return $this->belongsTo(\App\Model\Entities\Users::class, 'user_id');
+        return $this->belongsTo(\Authpack\Model\Entities\User::class, 'user_id');
     }
     
     /**
