@@ -1,4 +1,4 @@
-@extends(config('view.templates.email'))
+@extends(config('view.themes.email'))
 
 @section('content')
 <div style="padding: 0; color: #333 !important;">
