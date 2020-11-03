@@ -14,7 +14,6 @@ class LogsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/logs.php', 'logs');
-        $this->mergeConfigFrom(__DIR__.'/../config/vendor.php', 'logs-vendor');
     }
 
     /**
