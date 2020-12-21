@@ -11,6 +11,9 @@
     ],
     "homepage": "https://instantia-data@bitbucket.org/instantia-data/logs.git",
     "keywords": ["Laravel", "Logs"],
+    "require": {
+        "laravel/framework": ">=6.2"
+    },
     "autoload": {
         "psr-4": {
             "Logs\\": "src/"
