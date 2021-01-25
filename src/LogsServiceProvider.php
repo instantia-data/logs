@@ -31,7 +31,9 @@ class LogsServiceProvider extends ServiceProvider
         /**
          * Migrations
          */
-        $this->loadMigrationsFrom(__DIR__.'/../database');
+        if(env('APP_STAGE') != 'artisan'){
+            $this->loadMigrationsFrom(__DIR__.'/../database');
+        }
         
         /**
          * Suspicious routes array
