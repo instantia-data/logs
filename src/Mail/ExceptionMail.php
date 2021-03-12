@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 class ExceptionMail extends Mailable
 {
     use Queueable, SerializesModels;
+    use \App\Helpers\MailTools;
 
     /**
      * Create a new message instance.
@@ -41,6 +42,7 @@ class ExceptionMail extends Mailable
                 ->with('url', request()->url() . ' -> ' . $uri)
                 ->with('inputs', http_build_query(request()->input(), '', '<br />'))
                 ->with('subject', $subject)
+                ->with('info', $this->setInfo())
                 ->with('content', $this->content);
     }
     
