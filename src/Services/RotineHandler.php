@@ -19,12 +19,12 @@ class RotineHandler
 
         \Logs\Services\Visit::register();
         
-        info('Url-Route ' . request()->url() . ' ' . 
-                request()->route()->uri . ' (' . 
-                request()->route()->getName() . ')');
+        $str = 'Url-Route ' . request()->url() . ' (' . request()->route()->getName() . ')';
+        
         if(is_string(request()->route()->action['uses'])){
-            info('Controller: ' . request()->route()->action['uses']);
+            $str .= "\n Controller: " . request()->route()->action['uses'];
         }
+        info($str);
         
     }
 }
