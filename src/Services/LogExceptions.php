@@ -61,10 +61,10 @@ class LogExceptions
      */
     public static function email(FlattenException $e)
     {
-        info('try email sending');
         try {
 
             $handler = new SymfonyExceptionHandler();
+            info('sending mail for exception');
 
             $html = $handler->getHtml($e);
             $mailable = new ExceptionMail($html);
@@ -73,7 +73,7 @@ class LogExceptions
             $mailable->with('error_file', $e->getFile());
             $mailable->with('error_line', $e->getLine());
             $mailable->with('ip', request()->ip());
-
+            
             Mail::to(config('logging.loggin_email'))->send($mailable);
         } catch (Exception $ex) {
             info('email sending failed');
