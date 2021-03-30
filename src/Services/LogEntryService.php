@@ -8,6 +8,7 @@ use Logs\Model\Entities\LogBrowser;
 use Logs\Model\Entities\LogEntry;
 use Logs\Model\Entities\LogIp;
 use Logs\Services\Visit;
+use Carbon\Carbon;
 
 /**
  * Description of LogEntryService
@@ -63,6 +64,7 @@ class LogEntryService
             $entry->browser_id = $browser->id;
             $entry->ip_id = $ip->id;
             $entry->operation_id = $operation->id;
+            $entry->created_at = Carbon::now();
             $entry->save();
         }
         return $entry->toArray();
@@ -130,6 +132,7 @@ class LogEntryService
         $entry->table = $class::TABLE_NAME;
         $entry->table_id = $class->getKey();
         $entry->notes = str_replace("|", "\n", $notes);
+        $entry->created_at = Carbon::now();
 
         $entry->save();
 
@@ -155,7 +158,7 @@ class LogEntryService
             'ip_id'=>LogIp::firstOrCreate(['ip' => request()->ip()])->id,
             'browser_id'=>LogBrowser::firstOrCreate(['browser_info' => request()->server('HTTP_USER_AGENT')])->id,
             'operation_id'=>LogOperation::firstOrCreate(['name' => $operation])->id,
-            
+            'created_at' => Carbon::now()
         ]);
         if(null != user()){
             $entry->user_id = user()->id;

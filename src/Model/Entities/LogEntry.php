@@ -24,14 +24,14 @@ class LogEntry extends Model
     /**
      * Visible columns.
      */
-    public $visible = ['id', 'browser_id', 'ip_id', 'operation_id', 'user_id', 'sessionid', 'table', 'table_id', 'notes', 'created_at', 'updated_at'];
+    public $visible = ['id', 'browser_id', 'ip_id', 'operation_id', 'user_id', 'sessionid', 'table', 'table_id', 'notes', 'created_at'];
     
      /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps = false;
     
     
     
@@ -95,11 +95,6 @@ class LogEntry extends Model
      */
     const FIELD_CREATED_AT = 'created_at';
     
-    /**
-     * 
-     * timestamp
-     */
-    const FIELD_UPDATED_AT = 'updated_at';
     
     /**
      * Foreign key constraint
@@ -227,12 +222,4 @@ class LogEntry extends Model
         return $this->created_at;
     }
     
-    /**
-     * 
-     * @return timestamp
-     */
-    public function getUpdatedAt() 
-    {
-        return $this->updated_at;
-    }
 }
