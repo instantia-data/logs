@@ -120,7 +120,7 @@ class LogEntryService
     {
         $operation_id = LogOperation::firstOrCreate(['name' => $operation])->id;
         if (null == user()) {
-            log_info('no-user-log', $notes);
+            info('no-user-to-log@' . $operation);
             return;
         }
         $info = user()->useragent();
