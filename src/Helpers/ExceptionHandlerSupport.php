@@ -36,13 +36,13 @@ trait ExceptionHandlerSupport
         //log_var($this->flatten->getMessage());
         if(strpos($this->flatten->getClass(), 'NotFoundHttpException') !== false){
             if(\Logs\Rottweiler\RouteGate::validError(request()->url()) == false){
+                $this->registerBadBot(request());
                 LogExceptions::email($this->flatten);
                 $this->ban = true;
             }
         }
         
-        if ($exception instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
-            info('Too Many Attempts');
+        if ($this->isBotThrottle($exception) == true) {
             $this->ban = true;
         }
         
@@ -58,7 +58,8 @@ trait ExceptionHandlerSupport
         if (strpos($this->flatten->getClass(), 'TokenMismatchException') === false 
                 && strpos($this->flatten->getClass(), 'OAuthServerException') === false 
                 && strpos($this->flatten->getClass(), 'ValidationException') === false 
-                && strpos($this->flatten->getClass(), 'AuthenticationException') === false) {
+                && strpos($this->flatten->getClass(), 'AuthenticationException') === false
+                && strpos($this->flatten->getClass(), 'ThrottleRequestsException') === false) {
             if(LogExceptions::email($this->flatten) != false){
                 
                 return true;
@@ -106,6 +107,20 @@ trait ExceptionHandlerSupport
         ], [
             'blocked'=>1
         ]);
+    }
+    
+    
+    private function isBotThrottle($exception) 
+    {
+        if ($exception instanceof \Illuminate\Http\Exceptions\ThrottleRequestsException) {
+            info('Too Many Attempts');
+            $bot = LogBot::where('ip', request()->ip())->where('blocked', 1)->first();
+            if(null !== $bot){
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     
