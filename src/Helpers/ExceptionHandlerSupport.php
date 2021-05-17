@@ -52,7 +52,7 @@ trait ExceptionHandlerSupport
     
     protected function emailing() 
     {
-        if(env('LOG_EXCEPTION') != 'email' && strpos(php_sapi_name(), 'cli') !== false){
+        if(env('LOG_EXCEPTION') != 'email' || strpos(php_sapi_name(), 'cli') !== false){
             return false;
         }
         if (strpos($this->flatten->getClass(), 'TokenMismatchException') === false 
