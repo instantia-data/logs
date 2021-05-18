@@ -28,7 +28,7 @@ trait ExceptionHandlerSupport
         
         $this->api = \App\Http\Middleware\CheckToken::$api;
         if ($this->api == true) {
-            info('Is api');
+            info('api reporting');
         }
         $this->flatten = FlattenException::createFromThrowable($exception);
         
