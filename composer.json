@@ -4,15 +4,15 @@
     "license": "license",
     "authors": [
         {
-            "name": "author name",
-            "email": "author email",
-            "homepage": "author homepage"
+            "name": "Luís Pinto",
+            "email": "luis.pinto@instantia.pt",
+            "homepage": "https://github.com/instantia-data"
         }
     ],
     "homepage": "https://instantia-data@bitbucket.org/instantia-data/logs.git",
     "keywords": ["Laravel", "Logs"],
     "require": {
-        "laravel/framework": ">=6.2"
+        "laravel/framework": ">=7.0"
     },
     "autoload": {
         "psr-4": {
@@ -20,7 +20,7 @@
         }
     },
     "repositories": [
-        {"type": "vcs", "url": "https://instantia-data@bitbucket.org/instantia-data/library.git"}
+        
     ],
     "extra": {
         "laravel": {
